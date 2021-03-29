@@ -51,9 +51,7 @@ def getAllCal(avdelning=0, tribe_event_category="scout",
     while date1 < date2:
         r = requests.get(api, params=parameters)
         cal = Calendar.from_ical(r.text)
-        for component in cal.walk():
-            if component.name == 'VEVENT':
-                last_date = component.get('dtstart').dt
+        last_date = cal.subcomponents[-1].get('dtstart').dt
         if isinstance(last_date, datetime):
             last_date = last_date.date()
         date1 = date2
